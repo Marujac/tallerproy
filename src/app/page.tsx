@@ -33,8 +33,8 @@ export default function Home() {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error Generating Questions',
-        description: error instanceof Error ? error.message : 'An unknown error occurred.',
+        title: 'Error al Generar Preguntas',
+        description: error instanceof Error ? error.message : 'Ocurrió un error desconocido.',
       });
     } finally {
       setIsLoading(null);
@@ -51,8 +51,8 @@ export default function Home() {
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error Detecting Bias',
-        description: error instanceof Error ? error.message : 'An unknown error occurred.',
+        title: 'Error al Detectar Sesgo',
+        description: error instanceof Error ? error.message : 'Ocurrió un error desconocido.',
       });
     } finally {
       setIsLoading(null);
@@ -64,12 +64,12 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card className="w-full sticky top-20">
           <CardHeader>
-            <CardTitle>Text Input</CardTitle>
-            <CardDescription>Paste your text below to get started.</CardDescription>
+            <CardTitle>Entrada de Texto</CardTitle>
+            <CardDescription>Pega tu texto a continuación para comenzar.</CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="Enter or paste your text here..."
+              placeholder="Ingresa o pega tu texto aquí..."
               value={text}
               onChange={(e) => setText(e.target.value)}
               className="min-h-[300px] text-base"
@@ -78,16 +78,16 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <Button onClick={onGenerateQuestions} disabled={!text || !!isLoading} className="w-full sm:w-auto">
                 {isLoading === 'questions' ? (
-                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4 animate-spin" />Generating...</span>
+                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4 animate-spin" />Generando...</span>
                 ) : (
-                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4" />Generate Questions</span>
+                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4" />Generar Preguntas</span>
                 )}
               </Button>
               <Button onClick={onDetectBias} disabled={!text || !!isLoading} variant="secondary" className="w-full sm:w-auto">
                 {isLoading === 'bias' ? (
-                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4 animate-spin" />Analyzing...</span>
+                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4 animate-spin" />Analizando...</span>
                 ) : (
-                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4" />Detect Bias</span>
+                  <span className="flex items-center"><Wand2 className="mr-2 h-4 w-4" />Detectar Sesgo</span>
                 )}
               </Button>
             </div>

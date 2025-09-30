@@ -32,9 +32,9 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
       return (
         <div className="flex items-center justify-center h-full min-h-[400px]">
             <div className="text-center">
-                <CardTitle>Analysis Results</CardTitle>
+                <CardTitle>Resultados del Análisis</CardTitle>
                 <CardDescription className="mt-2">
-                    Your generated questions or bias analysis will appear here.
+                    Tus preguntas generadas o análisis de sesgo aparecerán aquí.
                 </CardDescription>
             </div>
         </div>
@@ -46,11 +46,11 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="questions">
             <HelpCircle className="mr-2 h-4 w-4" />
-            Critical Questions
+            Preguntas Críticas
           </TabsTrigger>
           <TabsTrigger value="bias">
             <Microscope className="mr-2 h-4 w-4" />
-            Bias Analysis
+            Análisis de Sesgo
           </TabsTrigger>
         </TabsList>
         <TabsContent value="questions">
@@ -58,7 +58,7 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
             <QuestionQuiz questionsData={questions} />
           ) : (
             <div className="text-center py-16 text-muted-foreground">
-              Generate questions to see them here.
+              Genera preguntas para verlas aquí.
             </div>
           )}
         </TabsContent>
@@ -67,7 +67,7 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
             <BiasAnalysis biasData={biases} />
           ) : (
             <div className="text-center py-16 text-muted-foreground">
-              Run bias detection to see results here.
+              Ejecuta la detección de sesgos para ver los resultados aquí.
             </div>
           )}
         </TabsContent>

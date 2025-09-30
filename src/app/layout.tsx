@@ -5,8 +5,8 @@ import { Header } from '@/components/layout/header';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'CritiqueAssist',
-  description: 'Enhance your critical thinking with AI-powered analysis.',
+  title: 'AsistenteDeCrítica',
+  description: 'Mejora tu pensamiento crítico con análisis impulsado por IA.',
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

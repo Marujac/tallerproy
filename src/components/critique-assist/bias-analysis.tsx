@@ -11,14 +11,14 @@ export function BiasAnalysis({ biasData }: BiasAnalysisProps) {
   if (!biasData || biasData.biasedPassages.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-muted-foreground">No potential biases or fallacies were detected.</p>
+        <p className="text-muted-foreground">No se detectaron sesgos o falacias potenciales.</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-foreground px-1">Potential Bias & Fallacy Analysis</h3>
+      <h3 className="text-lg font-semibold text-foreground px-1">Análisis de Sesgo y Falacias Potenciales</h3>
       {biasData.biasedPassages.map((item, index) => (
         <Card key={index} className="bg-card shadow">
           <CardContent className="p-4">

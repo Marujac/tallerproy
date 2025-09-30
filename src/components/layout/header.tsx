@@ -7,7 +7,7 @@ export function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <Link href="/" className="flex items-center space-x-2 mr-6">
           <BookText className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg inline-block">CritiqueAssist</span>
+          <span className="font-bold text-lg inline-block">AsistenteDeCrítica</span>
         </Link>
       </div>
     </header>

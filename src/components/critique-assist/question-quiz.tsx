@@ -59,17 +59,17 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Quiz Complete!</CardTitle>
-          <CardDescription>You've answered all the questions.</CardDescription>
+          <CardTitle>¡Cuestionario Completo!</CardTitle>
+          <CardDescription>Has respondido todas las preguntas.</CardDescription>
         </CardHeader>
         <CardContent className="text-center py-8">
           <p className="text-5xl font-bold text-primary">{score} / {questions.length}</p>
-          <p className="text-muted-foreground mt-2">Correct Answers</p>
+          <p className="text-muted-foreground mt-2">Respuestas Correctas</p>
         </CardContent>
         <CardFooter>
           <Button onClick={handleRestart} className="w-full">
             <RotateCw className="mr-2 h-4 w-4" />
-            Try Again
+            Intentar de Nuevo
           </Button>
         </CardFooter>
       </Card>
@@ -79,7 +79,7 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
+        <CardTitle>Pregunta {currentQuestionIndex + 1} de {questions.length}</CardTitle>
         <Progress value={progressPercentage} className="mt-2" />
         <CardDescription className="pt-4 text-lg font-semibold text-foreground">
           {currentQuestion.question}
@@ -131,16 +131,16 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
       <CardFooter className="flex-col items-stretch gap-2">
         {hasAnsweredCurrent && !answers[currentQuestionIndex].isCorrect && (
             <div className="rounded-md border border-chart-2/50 bg-chart-2/10 p-3 text-sm text-chart-2">
-                <strong>Correct Answer: </strong>{currentQuestion.answer}
+                <strong>Respuesta Correcta: </strong>{currentQuestion.answer}
             </div>
         )}
         {hasAnsweredCurrent ? (
            <Button onClick={handleNextQuestion} className="w-full">
-            Next Question <ArrowRight className="ml-2 h-4 w-4" />
+            Siguiente Pregunta <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         ) : (
           <Button onClick={handleCheckAnswer} disabled={!selectedOption} className="w-full">
-            Check Answer
+            Verificar Respuesta
           </Button>
         )}
       </CardFooter>
