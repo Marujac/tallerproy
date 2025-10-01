@@ -7,7 +7,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { CheckCircle2, XCircle, ArrowRight, RotateCw } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-
+import { useAuth } from '@/hooks/use-auth';
+import { addQuizAttempt } from '@/lib/firestore';
 import type { GenerateQuestionsFromTextOutput } from '@/ai/flows/generate-questions-from-text';
 import type { QuizAttempt } from '@/types/history';
 
@@ -22,6 +23,7 @@ type AnswerState = {
 
 export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
   const { questions } = questionsData;
+  const { user } = useAuth();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, AnswerState>>({});
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -34,21 +36,18 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
   const score = Object.values(answers).filter(a => a.isCorrect).length;
 
   useEffect(() => {
-    if (isQuizFinished) {
-      const newAttempt: QuizAttempt = {
+    if (isQuizFinished && user) {
+      const newAttempt: Omit<QuizAttempt, 'id'> = {
+        userId: user.uid,
         date: new Date().toISOString(),
         score,
         totalQuestions: questions.length,
       };
-      try {
-        const history = JSON.parse(localStorage.getItem('quizHistory') || '[]') as QuizAttempt[];
-        history.push(newAttempt);
-        localStorage.setItem('quizHistory', JSON.stringify(history));
-      } catch (error) {
-        console.error("Failed to save quiz history:", error);
-      }
+      addQuizAttempt(newAttempt).catch(error => {
+        console.error("Failed to save quiz history to Firestore:", error);
+      });
     }
-  }, [isQuizFinished, score, questions.length]);
+  }, [isQuizFinished, score, questions.length, user]);
 
 
   const handleCheckAnswer = () => {
