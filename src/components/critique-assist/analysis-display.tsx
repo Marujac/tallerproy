@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { QuestionQuiz } from "./question-quiz";
 import { BiasAnalysis } from "./bias-analysis";
-import { HelpCircle, Microscope } from "lucide-react";
+import { HistoryDisplay } from "./history-display";
+import { HelpCircle, Microscope, History } from "lucide-react";
 
 import type { GenerateQuestionsFromTextOutput } from '@/ai/flows/generate-questions-from-text';
 import type { DetectBiasOutput } from '@/ai/flows/detect-bias-in-text';
@@ -15,7 +17,15 @@ type AnalysisDisplayProps = {
 };
 
 export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDisplayProps) {
-  const activeTab = questions ? 'questions' : biases ? 'bias' : 'questions';
+  const [activeTab, setActiveTab] = useState('questions');
+
+  useEffect(() => {
+    if (questions) {
+      setActiveTab('questions');
+    } else if (biases) {
+      setActiveTab('bias');
+    }
+  }, [questions, biases]);
 
   const renderContent = () => {
     if (isLoading) {
@@ -31,19 +41,42 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
     if (!questions && !biases) {
       return (
         <div className="flex items-center justify-center h-full min-h-[400px]">
-            <div className="text-center">
-                <CardTitle>Resultados del Análisis</CardTitle>
-                <CardDescription className="mt-2">
-                    Tus preguntas generadas o análisis de sesgo aparecerán aquí.
-                </CardDescription>
-            </div>
+          <Tabs defaultValue="history" onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="questions">
+                <HelpCircle className="mr-2 h-4 w-4" />
+                Preguntas Críticas
+              </TabsTrigger>
+              <TabsTrigger value="bias">
+                <Microscope className="mr-2 h-4 w-4" />
+                Análisis de Sesgo
+              </TabsTrigger>
+              <TabsTrigger value="history">
+                <History className="mr-2 h-4 w-4" />
+                Historial
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="questions">
+              <div className="text-center py-16 text-muted-foreground">
+                Genera preguntas para verlas aquí.
+              </div>
+            </TabsContent>
+            <TabsContent value="bias">
+              <div className="text-center py-16 text-muted-foreground">
+                Ejecuta la detección de sesgos para ver los resultados aquí.
+              </div>
+            </TabsContent>
+            <TabsContent value="history">
+              <HistoryDisplay />
+            </TabsContent>
+          </Tabs>
         </div>
       );
     }
     
     return (
-      <Tabs defaultValue={activeTab} value={activeTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="questions">
             <HelpCircle className="mr-2 h-4 w-4" />
             Preguntas Críticas
@@ -51,6 +84,10 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
           <TabsTrigger value="bias">
             <Microscope className="mr-2 h-4 w-4" />
             Análisis de Sesgo
+          </TabsTrigger>
+           <TabsTrigger value="history">
+            <History className="mr-2 h-4 w-4" />
+            Historial
           </TabsTrigger>
         </TabsList>
         <TabsContent value="questions">
@@ -70,6 +107,9 @@ export function AnalysisDisplay({ questions, biases, isLoading }: AnalysisDispla
               Ejecuta la detección de sesgos para ver los resultados aquí.
             </div>
           )}
+        </TabsContent>
+        <TabsContent value="history">
+          <HistoryDisplay />
         </TabsContent>
       </Tabs>
     );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -9,6 +9,7 @@ import { CheckCircle2, XCircle, ArrowRight, RotateCw } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 import type { GenerateQuestionsFromTextOutput } from '@/ai/flows/generate-questions-from-text';
+import type { QuizAttempt } from '@/types/history';
 
 type QuestionQuizProps = {
   questionsData: GenerateQuestionsFromTextOutput;
@@ -27,6 +28,28 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
 
   const currentQuestion = questions[currentQuestionIndex];
   const hasAnsweredCurrent = answers.hasOwnProperty(currentQuestionIndex);
+  
+  const progressPercentage = ((currentQuestionIndex + (hasAnsweredCurrent ? 1 : 0)) / questions.length) * 100;
+  const isQuizFinished = currentQuestionIndex === questions.length - 1 && hasAnsweredCurrent;
+  const score = Object.values(answers).filter(a => a.isCorrect).length;
+
+  useEffect(() => {
+    if (isQuizFinished) {
+      const newAttempt: QuizAttempt = {
+        date: new Date().toISOString(),
+        score,
+        totalQuestions: questions.length,
+      };
+      try {
+        const history = JSON.parse(localStorage.getItem('quizHistory') || '[]') as QuizAttempt[];
+        history.push(newAttempt);
+        localStorage.setItem('quizHistory', JSON.stringify(history));
+      } catch (error) {
+        console.error("Failed to save quiz history:", error);
+      }
+    }
+  }, [isQuizFinished, score, questions.length]);
+
 
   const handleCheckAnswer = () => {
     if (!selectedOption) return;
@@ -51,9 +74,6 @@ export function QuestionQuiz({ questionsData }: QuestionQuizProps) {
     setSelectedOption(null);
   };
   
-  const progressPercentage = ((currentQuestionIndex + (hasAnsweredCurrent ? 1 : 0)) / questions.length) * 100;
-  const isQuizFinished = currentQuestionIndex === questions.length - 1 && hasAnsweredCurrent;
-  const score = Object.values(answers).filter(a => a.isCorrect).length;
 
   if (isQuizFinished) {
     return (
