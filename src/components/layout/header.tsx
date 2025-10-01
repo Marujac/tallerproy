@@ -27,7 +27,7 @@ export function Header() {
         <div className="flex flex-1 items-center justify-end">
           {!loading && user && (
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground hidden sm:inline-block">{user.email}</span>
+              <span className="text-sm text-muted-foreground hidden sm:inline-block">{user.displayName || user.email}</span>
               <Button variant="ghost" size="sm" onClick={handleSignOut}>
                 <LogOut className="mr-2 h-4 w-4" />
                 Cerrar Sesión
