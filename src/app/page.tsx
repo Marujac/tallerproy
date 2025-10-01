@@ -64,7 +64,7 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Entrada de Texto</CardTitle>
+            <CardTitle>Tutor de Lectura Crítica</CardTitle>
             <CardDescription>Pega tu texto a continuación para comenzar.</CardDescription>
           </CardHeader>
           <CardContent>
