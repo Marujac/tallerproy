@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <Card className="w-full sticky top-20">
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>Entrada de Texto</CardTitle>
             <CardDescription>Pega tu texto a continuación para comenzar.</CardDescription>
