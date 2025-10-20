@@ -35,6 +35,19 @@ Colecciones:
 ## Notas
 - Middleware + guardas de cliente requieren login antes de ver la app.
 
+## Despliegue
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Jcesarqz/TutorVirtual&project-name=tutorvirtual&repository-name=TutorVirtual)
+
+1) En Vercel, al crear el proyecto, configura las variables de entorno:
+   - `AUTH_SECRET` (cadena larga y aleatoria)
+   - `MONGODB_URI` (cadena de conexión de Atlas)
+   - `MONGODB_DB` (por ejemplo `tutorcritico`)
+   - `GEMINI_API_KEY` (opcional, para Genkit + GoogleAI)
+2) Haz el primer deploy; Next.js detecta automáticamente la app (App Router).
+3) Si cambias variables, vuelve a desplegar para aplicarlas.
+
+
 ## Configuración de entorno
 
 1. Copia .env.example a .env.
