@@ -34,3 +34,14 @@ Colecciones:
 
 ## Notas
 - Middleware + guardas de cliente requieren login antes de ver la app.
+
+## Configuración de entorno
+
+1. Copia .env.example a .env.
+2. Completa los valores requeridos:
+   - AUTH_SECRET (cadena larga y aleatoria)
+   - MONGODB_URI y MONGODB_DB
+   - GEMINI_API_KEY (opcional si usas Genkit + GoogleAI)
+3. Inicia la app: 
+pm install y 
+pm run dev.
