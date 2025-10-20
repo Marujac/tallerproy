@@ -1,0 +1,49 @@
+{
+  "examples": [
+    {
+      "id": 1,
+      "text": "No deberíamos escuchar la propuesta económica del candidato Pérez. Pasó un tiempo en la cárcel hace años, así que sus ideas no pueden ser buenas.",
+      "fallacy": {
+        "type": "Ad Hominem",
+        "passage": "Pasó un tiempo en la cárcel hace años, así que sus ideas no pueden ser buenas.",
+        "explanation": "Esta es una falacia 'Ad Hominem' porque ataca el carácter del candidato Pérez en lugar de evaluar la validez de su propuesta económica. El pasado de una persona no invalida automáticamente sus argumentos presentes."
+      }
+    },
+    {
+      "id": 2,
+      "text": "O estamos completamente a favor de la nueva política de seguridad y renunciamos a nuestra privacidad, o la delincuencia se apoderará de la ciudad. No hay término medio.",
+      "fallacy": {
+        "type": "Falsa Dicotomía",
+        "passage": "O estamos completamente a favor de la nueva política de seguridad y renunciamos a nuestra privacidad, o la delincuencia se apoderará de la ciudad.",
+        "explanation": "Se presenta una 'Falsa Dicotomía' al reducir un problema complejo a solo dos opciones extremas, ignorando otras posibles soluciones que podrían equilibrar seguridad y privacidad."
+      }
+    },
+    {
+      "id": 3,
+      "text": "La concejal dijo que no deberíamos invertir tanto dinero en el nuevo estadio deportivo. Claramente, ella odia los deportes y no le importa la felicidad de los ciudadanos.",
+      "fallacy": {
+        "type": "Hombre de Paja",
+        "passage": "Claramente, ella odia los deportes y no le importa la felicidad de los ciudadanos.",
+        "explanation": "Esta es una falacia del 'Hombre de Paja'. Se distorsiona el argumento original (priorizar el presupuesto) y se reemplaza por uno más fácil de atacar (que odia los deportes), en lugar de debatir sobre las prioridades de inversión."
+      }
+    },
+    {
+      "id": 4,
+      "text": "He probado dos restaurantes en esta ciudad y ambos eran malos. Concluyo que toda la oferta gastronómica de la ciudad es terrible.",
+      "fallacy": {
+        "type": "Generalización Apresurada",
+        "passage": "He probado dos restaurantes en esta ciudad y ambos eran malos. Concluyo que toda la oferta gastronómica de la ciudad es terrible.",
+        "explanation": "Se comete una 'Generalización Apresurada' al llegar a una conclusión amplia basada en una muestra muy pequeña y no representativa. Dos malas experiencias no son suficientes para juzgar a todos los restaurantes de una ciudad."
+      }
+    },
+    {
+      "id": 5,
+      "text": "Si permitimos que los estudiantes usen sus teléfonos en clase para buscar información, pronto estarán usándolos para jugar, luego dejarán de prestar atención por completo y finalmente todos reprobarán el año.",
+      "fallacy": {
+        "type": "Pendiente Resbaladiza",
+        "passage": "Si permitimos que los estudiantes usen sus teléfonos en clase... finalmente todos reprobarán el año.",
+        "explanation": "Esta es una falacia de 'Pendiente Resbaladiza'. Se argumenta que una acción inicial desencadenará una serie de eventos negativos inevitables sin pruebas suficientes que respalden esa cadena de consecuencias."
+      }
+    }
+  ]
+}
