@@ -1,0 +1,21 @@
+{
+  "info": {"name": "Auth - Login Usuario", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "item": [
+    {
+      "name": "Login Usuario",
+      "event": [
+        {"listen": "test", "script": {"type": "text/javascript", "exec": [
+          "pm.test('status 200', () => pm.response.to.have.status(200));",
+          "pm.test('set-cookie AUTH_TOKEN presente', () => { const sc = pm.response.headers.get('set-cookie') || ''; pm.expect(sc.toLowerCase()).to.include('auth_token'); });"
+        ]}}
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"},
+        "url": {"raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"]}
+      }
+    }
+  ]
+}
+

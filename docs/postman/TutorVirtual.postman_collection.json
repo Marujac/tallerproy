@@ -1,0 +1,189 @@
+{
+  "info": {
+    "name": "TutorVirtual API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección para probar la API de TutorVirtual (Next.js). Incluye Auth, Analyze e History con tests."
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registrar Usuario",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Si no hay email definido, genera uno aleatorio para evitar conflictos",
+                  "if (!pm.environment.get('email')) { pm.environment.set('email', `user_${Date.now()}@example.com`); }",
+                  "if (!pm.environment.get('name')) { pm.environment.set('name', 'Tester'); }",
+                  "if (!pm.environment.get('password')) { pm.environment.set('password', 'Test1234!'); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('json content-type', () => pm.response.to.have.header('Content-Type', /json/));",
+                  "const data = pm.response.json();",
+                  "pm.test('res has id,name,email', () => { pm.expect(data).to.have.property('id'); pm.expect(data).to.have.property('name'); pm.expect(data).to.have.property('email'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{name}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/signup", "host": ["{{baseUrl}}"], "path": ["api","auth","signup"] }
+          }
+        },
+        {
+          "name": "Login Usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('set-cookie AUTH_TOKEN presente', () => { const sc = pm.response.headers.get('set-cookie') || ''; pm.expect(sc.toLowerCase()).to.include('auth_token'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] }
+          }
+        },
+        {
+          "name": "Verificar Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200 o 401', () => pm.expect([200,401]).to.include(pm.response.code));",
+                  "if (pm.response.code === 200) { const d = pm.response.json(); pm.test('user presente', () => pm.expect(d).to.have.property('user').that.is.not.null); }"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/auth/me", "host": ["{{baseUrl}}"], "path": ["api","auth","me"] } }
+        },
+        {
+          "name": "Cerrar Sesión",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/api/auth/logout", "host": ["{{baseUrl}}"], "path": ["api","auth","logout"] } }
+        }
+      ]
+    },
+    {
+      "name": "Análisis",
+      "item": [
+        {
+          "name": "Analizar Texto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const maxMs = parseInt(pm.environment.get('maxResponseTimeMs') || '800', 10);",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('t < max', () => pm.expect(pm.response.responseTime).to.be.below(maxMs));",
+                  "const data = pm.response.json();",
+                  "pm.test('fallacies es array', () => pm.expect(Array.isArray(data.fallacies)).to.be.true);",
+                  "if ((pm.response.json().fallacies || []).length) { const f = pm.response.json().fallacies[0]; pm.test('objeto con type/passage/explanation', () => { pm.expect(f).to.have.property('type'); pm.expect(f).to.have.property('passage'); pm.expect(f).to.have.property('explanation'); }); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"{{longText}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/analyze", "host": ["{{baseUrl}}"], "path": ["api","analyze"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Historial",
+      "item": [
+        {
+          "name": "Listar Historial",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('array', () => { const d = pm.response.json(); pm.expect(Array.isArray(d)).to.be.true; });"
+                ]
+              }
+            }
+          ],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/history", "host": ["{{baseUrl}}"], "path": ["api","history"] } }
+        },
+        {
+          "name": "Crear Entrada de Historial",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": { "type": "text/javascript", "exec": [ "pm.variables.set('nowTs', Date.now());" ] }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 201', () => pm.response.to.have.status(201));",
+                  "pm.test('retorna id', () => pm.expect(pm.response.json()).to.have.property('id'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Ejemplo de texto analizado y guardado en historial.\",\n  \"fallacies\": [],\n  \"questions\": [],\n  \"score\": 0.8,\n  \"timestamp\": {{nowTs}}\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/history", "host": ["{{baseUrl}}"], "path": ["api","history"] }
+          }
+        }
+      ]
+    }
+  ]
+}

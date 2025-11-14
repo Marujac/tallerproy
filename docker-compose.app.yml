@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    depends_on:
+      - mongo
+    environment:
+      NODE_ENV: production
+      AUTH_SECRET: ${AUTH_SECRET:-changeme}
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017}
+      MONGODB_DB: ${MONGODB_DB:-tutor}
+      ADMIN_KEY: ${ADMIN_KEY:-}
+      # Uncomment to force demo mode (no DB required)
+      # DEMO_AUTH: "true"
+    ports:
+      - "9002:3000"
+
+volumes:
+  mongo_data: {}

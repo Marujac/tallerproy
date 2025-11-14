@@ -8,7 +8,16 @@
     "genkit:watch": "genkit start -- node --watch src/ai/dev.js",
     "build": "NODE_ENV=production next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand",
+    "test:coverage": "jest --coverage --runInBand",
+    "test:docker:build": "docker build -t tutorvirtual-tests .",
+    "test:docker": "docker compose run --rm tests",
+    "test:docker:mongo": "docker compose up --abort-on-container-exit --exit-code-from tests-mongo tests-mongo",
+    "app:docker:build": "docker build -t tutorvirtual-app -f Dockerfile.app .",
+    "app:docker:up": "docker compose -f docker-compose.app.yml up --build",
+    "app:docker:down": "docker compose -f docker-compose.app.yml down"
   },
   "dependencies": {
     "@genkit-ai/google-genai": "^1.20.0",
@@ -42,8 +51,8 @@
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.6.0",
     "genkit": "^1.20.0",
-    "jsonwebtoken": "^9.0.2",
     "jose": "^5.9.6",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.475.0",
     "mongodb": "^6.10.0",
     "next": "15.3.3",
@@ -58,8 +67,16 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "genkit-cli": "^1.20.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "mongodb-memory-server": "^10.2.3",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "whatwg-fetch": "^3.6.20"
   }
 }

@@ -1,0 +1,22 @@
+{
+  "info": {"name": "Historial - Crear Entrada", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "item": [
+    {
+      "name": "Crear Entrada de Historial",
+      "event": [
+        {"listen": "prerequest", "script": {"type": "text/javascript", "exec": ["pm.variables.set('nowTs', Date.now());"]}},
+        {"listen": "test", "script": {"type": "text/javascript", "exec": [
+          "pm.test('status 201', () => pm.response.to.have.status(201));",
+          "pm.test('retorna id', () => pm.expect(pm.response.json()).to.have.property('id'));"
+        ]}}
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"text\": \"Ejemplo de texto analizado y guardado en historial.\",\n  \"fallacies\": [],\n  \"questions\": [],\n  \"score\": 0.8,\n  \"timestamp\": {{nowTs}}\n}"},
+        "url": {"raw": "{{baseUrl}}/api/history", "host": ["{{baseUrl}}"], "path": ["api","history"]}
+      }
+    }
+  ]
+}
+

@@ -32,6 +32,36 @@ Colecciones:
 - `npm install`
 - `npm run dev`
 
+## Pruebas en contenedores (Docker)
+
+Esta sección añade una dockerización mínima para ejecutar Jest dentro de contenedores y, opcionalmente, levantar MongoDB con docker-compose.
+
+1) Requisitos
+- Docker Desktop instalado y corriendo.
+
+2) Comandos rápidos
+- Solo tests en contenedor (sin Mongo externo; usa mocks/mongodb-memory-server):
+  - `npm run test:docker`
+- Tests usando un Mongo real en contenedor (compose orquesta los servicios):
+  - `npm run test:docker:mongo`
+
+3) ¿Qué se creó?
+- `Dockerfile`: imagen Node 20 que copia el repo y corre `npm test`.
+- `docker-compose.yml` con 3 servicios:
+  - `tests`: corre Jest directamente (sin DB externa).
+  - `mongo`: inicia MongoDB 7.
+  - `tests-mongo`: espera a Mongo y luego corre Jest (`docker/wait-for-mongo.sh`).
+- `.dockerignore`: reduce el contexto de build (ignora `node_modules`, `.next`, etc.).
+
+4) Flujo recomendado
+- Desarrollo local rápido: `npm test` en tu máquina (sin Docker).
+- Verificación/reproducibilidad: `npm run test:docker` (misma imagen en cualquier equipo/CI).
+- Pruebas con DB real: `npm run test:docker:mongo` (compose levanta Mongo + runner).
+
+5) Cobertura en contenedor
+- Ejecuta: `docker compose run --rm tests npm run test:coverage`.
+  Los reportes quedan dentro del contenedor, pero también puedes montar el repo si prefieres persistirlos fuera.
+
 ## Notas
 - Middleware + guardas de cliente requieren login antes de ver la app.
 
@@ -58,3 +88,21 @@ Colecciones:
 3. Inicia la app: 
 pm install y 
 pm run dev.
+## Ejecutar la app con Docker (producción)
+
+Se añadió `Dockerfile.app` y `docker-compose.app.yml` para levantar la aplicación Next.js junto a MongoDB.
+
+1) Variables de entorno
+- Copia `.env.docker.example` a `.env` o exporta las variables en tu terminal.
+- Asegúrate de definir `AUTH_SECRET` con una cadena segura.
+
+2) Levantar servicios
+- `docker compose -f docker-compose.app.yml up --build`
+- Abre `http://localhost:9002`.
+
+3) Detener y limpiar
+- `docker compose -f docker-compose.app.yml down`
+
+Notas:
+- Si prefieres modo demo (sin Mongo), descomenta `DEMO_AUTH=true` en `docker-compose.app.yml` o en tu `.env`.
+- El servicio `app` expone `3000` internamente y se publica en `9002` en tu máquina.

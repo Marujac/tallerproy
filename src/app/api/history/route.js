@@ -11,7 +11,6 @@ function isDemoMode() {
 
 export async function GET(request) {
   try {
-    // Determine user from token
     const token = getTokenFromRequest(request);
     const payload = token ? verifyToken(token) : null;
     const userId = payload?.sub || null;
@@ -82,3 +81,4 @@ export async function POST(request) {
     );
   }
 }
+

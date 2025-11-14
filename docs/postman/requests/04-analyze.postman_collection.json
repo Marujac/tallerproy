@@ -1,0 +1,24 @@
+{
+  "info": {"name": "Análisis - Analizar Texto", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "item": [
+    {
+      "name": "Analizar Texto",
+      "event": [
+        {"listen": "test", "script": {"type": "text/javascript", "exec": [
+          "const maxMs = parseInt(pm.environment.get('maxResponseTimeMs') || '800', 10);",
+          "pm.test('status 200', () => pm.response.to.have.status(200));",
+          "pm.test('t < max', () => pm.expect(pm.response.responseTime).to.be.below(maxMs));",
+          "const data = pm.response.json();",
+          "pm.test('fallacies es array', () => pm.expect(Array.isArray(data.fallacies)).to.be.true);"
+        ]}}
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"text\": \"{{longText}}\"\n}"},
+        "url": {"raw": "{{baseUrl}}/api/analyze", "host": ["{{baseUrl}}"], "path": ["api","analyze"]}
+      }
+    }
+  ]
+}
+

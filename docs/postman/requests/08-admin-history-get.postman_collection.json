@@ -1,0 +1,24 @@
+{
+  "info": {"name": "Admin - Listar Historial", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "item": [
+    {
+      "name": "GET /api/admin/history",
+      "event": [
+        {"listen": "test", "script": {"type": "text/javascript", "exec": [
+          "pm.test('status 200', () => pm.response.to.have.status(200));",
+          "const d = pm.response.json();",
+          "pm.test('items array', () => pm.expect(Array.isArray(d.items)).to.be.true);"
+        ]}}
+      ],
+      "request": {
+        "method": "GET",
+        "header": [ {"key": "x-admin-key", "value": "{{adminKey}}" } ],
+        "url": {"raw": "{{baseUrl}}/api/admin/history?email={{email}}&userId={{userId}}", "host": ["{{baseUrl}}"], "path": ["api","admin","history"], "query": [
+          {"key": "email", "value": "{{email}}"},
+          {"key": "userId", "value": "{{userId}}"}
+        ] }
+      }
+    }
+  ]
+}
+

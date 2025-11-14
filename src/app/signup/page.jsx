@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Header } from '@/components/app/header';
@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-export default function Signup() {
+function SignupInner() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +31,6 @@ export default function Signup() {
       const data = await res.json();
       if (!res.ok) {
         if (res.status === 409) {
-          // Si el correo ya existe, intenta iniciar sesión directamente
           const loginRes = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -57,39 +56,48 @@ export default function Signup() {
   }
 
   return (
+    <Card className="mx-auto max-w-sm w-full">
+      <CardHeader>
+        <CardTitle className="text-2xl">Crear Cuenta</CardTitle>
+        <CardDescription>Regístrate para guardar tu historial.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={onSubmit} className="space-y-4">
+          <div>
+            <label className="text-sm">Nombre</label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} required />
+          </div>
+          <div>
+            <label className="text-sm">Correo electrónico</label>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
+          <div>
+            <label className="text-sm">Contraseña</label>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? 'Creando…' : 'Registrarse'}
+          </Button>
+        </form>
+        <div className="mt-4 text-center text-sm">
+          ¿Ya tienes cuenta? <a href="/login" className="underline">Inicia sesión</a>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function Signup() {
+  return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow flex items-center justify-center p-4">
-        <Card className="mx-auto max-w-sm w-full">
-          <CardHeader>
-            <CardTitle className="text-2xl">Crear Cuenta</CardTitle>
-            <CardDescription>Regístrate para guardar tu historial.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm">Nombre</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} required />
-              </div>
-              <div>
-                <label className="text-sm">Correo electrónico</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </div>
-              <div>
-                <label className="text-sm">Contraseña</label>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-              <Button type="submit" className="w-full" disabled={submitting}>
-                {submitting ? 'Creando…' : 'Registrarse'}
-              </Button>
-            </form>
-            <div className="mt-4 text-center text-sm">
-              ¿Ya tienes cuenta? <a href="/login" className="underline">Inicia sesión</a>
-            </div>
-          </CardContent>
-        </Card>
+        <Suspense fallback={<div className="text-center">Cargando…</div>}>
+          <SignupInner />
+        </Suspense>
       </main>
       <Footer />
     </div>
   );
 }
+
