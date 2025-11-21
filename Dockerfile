@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the source
+# Copy the rest of the source (frontend + backend)
 COPY . .
 
 # Ensure non-interactive / CI mode

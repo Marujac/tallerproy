@@ -12,6 +12,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY package*.json ./
 RUN npm install
 COPY . .
+
 RUN npm run build
 
 FROM node:20-bullseye AS runner
@@ -21,9 +22,11 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 # Copy only the runtime artifacts
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/frontend/.next ./frontend/.next
+COPY --from=builder /app/frontend/next.config.mjs ./frontend/next.config.mjs
+COPY --from=builder /app/backend ./backend
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
+COPY --from=builder /app/package-lock.json ./package-lock.json
 
 # Next.js default port
 EXPOSE 3000
