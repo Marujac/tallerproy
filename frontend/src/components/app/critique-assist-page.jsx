@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -88,6 +89,9 @@ export function CritiqueAssistPage() {
                 {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isGenerating ? 'Generando...' : 'Generar Cuestionario'}
               </Button>
+              <Button asChild variant="outline" className="w-full sm:w-auto">
+                <Link href="/repositorio-sesgos">Repositorio</Link>
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -118,4 +122,3 @@ export function CritiqueAssistPage() {
     </div>
   );
 }
-

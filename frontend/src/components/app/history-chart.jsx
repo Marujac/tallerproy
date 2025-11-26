@@ -27,14 +27,14 @@ export function HistoryChart({ data }) {
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
           <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />
           <YAxis stroke="hsl(var(--muted-foreground))" domain={[0, 100]} />
-          <Tooltip 
+          <Tooltip
             contentStyle={{
               backgroundColor: 'hsl(var(--background))',
               borderColor: 'hsl(var(--border))',
             }}
           />
           <Legend wrapperStyle={{ color: 'hsl(var(--foreground))' }} />
-          <Line type="monotone" dataKey="Puntuación" stroke="hsl(var(--primary))" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="Puntuacion" stroke="hsl(var(--primary))" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

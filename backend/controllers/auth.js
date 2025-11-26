@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { getDb } from '@/backend/config/mongodb';
+import { getDb } from '../config/mongodb';
 
 const COOKIE_NAME = 'AUTH_TOKEN';
 

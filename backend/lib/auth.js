@@ -1,1 +1,1 @@
-export * from '@/backend/controllers/auth';
+export * from '../controllers/auth';

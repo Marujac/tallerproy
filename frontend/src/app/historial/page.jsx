@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
 import { HistoryChart } from '@/components/app/history-chart';
 import { HistoryTable } from '@/components/app/history-table';
+import { HistoryExportActions } from '@/components/app/history-export-actions';
 
 export default function Historial() {
   const [data, setData] = useState([]);
@@ -34,9 +35,9 @@ export default function Historial() {
     load();
   }, []);
 
-  const chartData = [...data].reverse().map(item => ({
+  const chartData = [...data].reverse().map((item) => ({
     date: new Date(item.timestamp).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }),
-    Puntuación: item.score,
+    Puntuacion: item.score,
   }));
 
   return (
@@ -73,14 +74,23 @@ export default function Historial() {
         ) : data.length === 0 ? (
           <Card>
             <CardContent className="p-6 text-center text-muted-foreground">
-              No hay registros aún. Realiza tu primer análisis para ver el historial aquí.
+              No hay registros aun. Realiza tu primer analisis para ver el historial aqui.
             </CardContent>
           </Card>
         ) : (
           <div className="space-y-8">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-lg font-semibold">Descarga tu historial</p>
+                <p className="text-sm text-muted-foreground">
+                  Exporta los registros en Excel o PDF para analizarlos fuera de la app.
+                </p>
+              </div>
+              <HistoryExportActions data={data} />
+            </div>
             <Card>
               <CardHeader>
-                <CardTitle>Progreso de Puntuación</CardTitle>
+                <CardTitle>Progreso de Puntuacion</CardTitle>
               </CardHeader>
               <CardContent>
                 <HistoryChart data={chartData} />
@@ -101,4 +111,3 @@ export default function Historial() {
     </div>
   );
 }
-

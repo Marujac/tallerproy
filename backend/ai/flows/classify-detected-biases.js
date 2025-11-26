@@ -1,6 +1,6 @@
 'use server';
 
-import { ai } from '@/backend/ai/genkit';
+import { ai } from '../genkit';
 import { z } from 'genkit';
 
 const ClassifyDetectedBiasesInputSchema = z.object({
