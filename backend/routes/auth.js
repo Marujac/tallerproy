@@ -8,7 +8,7 @@ import {
   signToken,
   validateCredentials,
   verifyToken,
-} from '@/backend/controllers/auth';
+} from '../controllers/auth';
 
 export async function signupRoute(request) {
   try {

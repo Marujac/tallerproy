@@ -1,1 +1,1 @@
-export * from '@/backend/services/demo-store';
+export * from '../services/demo-store';

@@ -1,0 +1,139 @@
+{
+  "name": "HU10 Recordatorios Lectura (Email + Mailhog)",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": [
+          {
+            "hour": 8,
+            "minute": 0,
+            "weekday": 1
+          }
+        ],
+        "timezone": "America/Bogota"
+      },
+      "id": "1",
+      "name": "Cron (diario/semanal)",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://app:3000/api/admin/reminders?channel=reminders&limit=200",
+        "responseFormat": "json",
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "x-admin-key",
+              "value": "={{$env.ADMIN_KEY}}"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Obtener estudiantes (API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const list = (items[0]?.json?.items || []);\nif (!list.length) {\n  // Fallback para demos sin datos reales\n  return [\n    { json: { email: 'demo1@example.com', name: 'Demo 1', timezone: 'UTC' } },\n    { json: { email: 'demo2@example.com', name: 'Demo 2', timezone: 'UTC' } },\n  ];\n}\nreturn list.map((entry) => ({\n  json: {\n    email: entry.email,\n    name: entry.name || 'estudiante',\n    times: entry.times || [],\n    timezone: entry.timezone || 'UTC',\n  },\n}));"
+      },
+      "id": "3",
+      "name": "Expandir destinatarios",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 10
+      },
+      "id": "4",
+      "name": "Split en lotes",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "no-reply@tutorvirtual.local",
+        "toEmail": "={{$json.email}}",
+        "subject": "Recordatorio de lectura",
+        "text": "Hola {{$json.name || 'estudiante'}}, recuerda tu sesión de lectura de hoy.",
+        "options": {}
+      },
+      "id": "5",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Cron (diario/semanal)": {
+      "main": [
+        [
+          {
+            "node": "Obtener estudiantes (API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener estudiantes (API)": {
+      "main": [
+        [
+          {
+            "node": "Expandir destinatarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expandir destinatarios": {
+      "main": [
+        [
+          {
+            "node": "Split en lotes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split en lotes": {
+      "main": [
+        [
+          {
+            "node": "Enviar correo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "timezone": "America/Bogota"
+  }
+}

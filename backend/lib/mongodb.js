@@ -1,1 +1,1 @@
-export * from '@/backend/config/mongodb';
+export * from '../config/mongodb';

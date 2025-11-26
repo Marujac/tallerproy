@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getDb } from '@/backend/config/mongodb';
-import { addUserHistory, getUserHistory } from '@/backend/services/demo-store';
-import { getTokenFromRequest, verifyToken } from '@/backend/controllers/auth';
+import { getDb } from '../config/mongodb';
+import { addUserHistory, getUserHistory } from '../services/demo-store';
+import { getTokenFromRequest, verifyToken } from '../controllers/auth';
 
 function isDemoMode() {
   const forceDemo = String(process.env.DEMO_AUTH || '').toLowerCase();
