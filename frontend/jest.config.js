@@ -18,8 +18,8 @@ const customJestConfig = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^@/backend/(.*)$': '<rootDir>/../backend/$1',
-    '^@backend/(.*)$': '<rootDir>/../backend/$1',
+    '^@/backend/(.*)$': '<rootDir>/../backend/backends/$1',
+    '^@backend/(.*)$': '<rootDir>/../backend/backends/$1',
     // Style imports: mock with identity-obj-proxy
     '^.+\\.(css|less|sass|scss)$': 'identity-obj-proxy',
   },
