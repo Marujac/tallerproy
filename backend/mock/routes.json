@@ -1,0 +1,12 @@
+{
+  "/api/auth/signup": "/auth/signup",
+  "/api/auth/login": "/auth/login",
+  "/api/auth/me": "/auth/me",
+  "/api/auth/logout": "/auth/logout",
+
+  "/api/history": "/history",
+  "/api/analyze": "/analyze",
+
+  "/api/admin/history": "/admin/history",
+  "/api/admin/users": "/admin/users"
+}
