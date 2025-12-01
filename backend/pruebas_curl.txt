@@ -1,0 +1,25 @@
+Guia rapida de curl (Windows CMD, usa ^ para continuar lineas). Base: http://localhost:9002
+
+=== REGISTRAR USUARIO ===
+curl -i -X POST "http://localhost:9002/api/auth/signup" ^
+  -H "Content-Type: application/json" ^
+  -c cookies.txt ^
+  --data "{\"name\":\"Juan Perez\",\"email\":\"juan@example.com\",\"password\":\"Secure123!\"}"
+Esperado: 201 + {"id":"...","name":"Juan Perez","email":"juan@example.com"}
+
+=== LOGIN USUARIO ===
+curl -i -X POST "http://localhost:9002/api/auth/login" ^
+  -H "Content-Type: application/json" ^
+  -c cookies.txt -b cookies.txt ^
+  --data "{\"email\":\"juan@example.com\",\"password\":\"Secure123!\"}"
+Esperado: 200 + {"user":{"id":"...","name":"Juan Perez","email":"juan@example.com"}}
+
+=== VER USUARIO ACTUAL ===
+curl -i "http://localhost:9002/api/auth/me" -b cookies.txt
+Esperado: 200 + {"user":{"id":"...","name":"Juan Perez","email":"juan@example.com"}}
+
+=== MOCK USERS (json-server en 4000) ===
+curl -i "http://localhost:4000/users"
+
+=== MOCK HISTORY (json-server en 4000) ===
+curl -i "http://localhost:4000/api/history"
