@@ -31,22 +31,22 @@ export function Header() {
             <>
               <Link href="/horarios" className="text-sm underline">Horarios</Link>
               <Link href="/historial" className="text-sm underline">Historial</Link>
-              <Button variant="outline" onClick={handleLogout}>Cerrar sesi��n</Button>
+              <Button variant="outline" onClick={handleLogout}>Cerrar sesión</Button>
             </>
           ) : (
             <>
-              <Link href="/login" className="text-sm underline">Iniciar sesi��n</Link>
+              <Link href="/login" className="text-sm underline">Iniciar sesión</Link>
               <Link href="/signup" className="text-sm underline">Registrarse</Link>
             </>
           )}
         </div>
         <BrainCircuit className="h-10 w-10 text-primary" />
         <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Tutor de Lectura Cr��tica
+          Tutor de Lectura Crítica
         </h1>
       </div>
       <p className="mt-4 mx-auto max-w-2xl text-center text-lg text-muted-foreground">
-        Pega cualquier texto a continuaci��n para descubrir falacias, detectar sesgos y generar un cuestionario de pensamiento cr��tico.
+        Pega cualquier texto a continuación para descubrir falacias, detectar sesgos y generar un cuestionario de pensamiento crítico.
       </p>
     </header>
   );
