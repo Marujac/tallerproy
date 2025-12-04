@@ -12,6 +12,8 @@ services:
       dockerfile: Dockerfile.app
     depends_on:
       - mongo
+    env_file:
+      - .env
     environment:
       NODE_ENV: production
       AUTH_SECRET: ${AUTH_SECRET:-changeme}

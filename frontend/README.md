@@ -55,7 +55,7 @@ Aplicacion web con Next.js (App Router) que usa IA (Genkit + Gemini) para analiz
 - En n8n, importa `docs/n8n/hu10-recordatorios-email.json` (menu Import from file/clipboard).
 - Configura credenciales SMTP en el nodo **Enviar correo** (usa Mailhog para demo o tu SMTP real).
 - El nodo HTTP usa `http://app:3000/api/admin/reminders` (dentro de docker-compose) con cabecera `x-admin-key` (se inyecta desde `ADMIN_KEY` en `.env`). Si ejecutas n8n fuera de compose, apunta a `http://localhost:9002/api/admin/reminders`.
-- Ajusta la frecuencia en el nodo **Cron (diario/semanal)** (weekday=1 es lunes). Para demos rápidas, cambia a “Every X minutes”.
+- Ajusta la frecuencia en el nodo **Cron (diario/semanal)** (weekday=1 es lunes). Para demos rapidas, cambia a "Every X minutes".
 - Activa el workflow y dispara manualmente (Execute workflow) para ver los correos llegar a Mailhog.
 
 ## Despliegue (Vercel)

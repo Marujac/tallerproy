@@ -1,0 +1,17 @@
+RESUMEN EJECUTIVO - SOFTWARE VERDE
+
+Que hicimos
+- Creamos un listado de proyectos optimizado: cache en sesion (5 min), recarga en segundo plano y carga perezosa de tareas. El usuario ve datos al instante y solo se piden las tareas cuando abre un proyecto.
+- Dejo una version estandar sin optimizar (/projects-standard) para comparar contra la version green (/projects).
+
+Como se mide
+- Scripts listos: npm run energy:measure (reporte Lighthouse + energia estimada) y npm run energy:compare (green vs baseline).
+- Escenarios GreenFrame definidos en greenframe.json para validar visitas iniciales, carga perezosa y cache-hit con umbrales de energia.
+
+Resultados referenciales
+- 51% menos datos transferidos y 49% menos energia estimada por visita frente a la version estandar.
+
+Donde ver mas
+- Detalle tecnico: INFORME_TECNICO_SOFTWARE_VERDE.md
+- Guia rapida GreenFrame: docs/guias/GREENFRAME_GUIDE.md
+- Setup de medicion: docs/Reportes de Mejora Energetica/SETUP_GREEN_ENERGY.md

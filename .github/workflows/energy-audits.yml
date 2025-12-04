@@ -1,0 +1,61 @@
+name: Energy Audits
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_energy:
+        description: "Ejecutar mediciones energeticas"
+        required: false
+        default: "true"
+
+permissions:
+  contents: read
+
+jobs:
+  energy:
+    if: ${{ github.event.inputs.run_energy != 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Start app (background)
+        run: |
+          PORT=3000 npm start &
+          echo $! > app.pid
+
+      - name: Wait for app
+        run: npx wait-on http://localhost:3000/projects --timeout 60000
+
+      - name: Energy measure (Green)
+        run: npm run energy:measure
+
+      - name: Energy compare (Green vs Baseline)
+        run: npm run energy:compare
+
+      - name: Upload energy reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: energy-reports
+          path: energy-reports
+          if-no-files-found: ignore
+
+      - name: Stop app
+        if: always()
+        run: |
+          if [ -f app.pid ]; then
+            kill "$(cat app.pid)" || true
+          fi

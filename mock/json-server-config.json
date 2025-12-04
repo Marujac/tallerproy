@@ -1,0 +1,5 @@
+{
+  "routes": "mock/routes.json",
+  "static": "mock",
+  "delay": 100
+}
