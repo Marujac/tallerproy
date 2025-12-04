@@ -1,0 +1,39 @@
+{
+  "scenarios": [
+    {
+      "name": "GreenProjectList - Initial Visit",
+      "url": "http://localhost:3000/projects",
+      "actions": [
+        { "type": "visit", "url": "http://localhost:3000/projects" },
+        { "type": "wait", "duration": 2000 }
+      ],
+      "description": "Primera carga: usa cache cuando aplica y monta la lista optimizada."
+    },
+    {
+      "name": "GreenProjectList - Expand Tasks (Lazy Load)",
+      "url": "http://localhost:3000/projects",
+      "actions": [
+        { "type": "visit", "url": "http://localhost:3000/projects" },
+        { "type": "click", "selector": "[data-testid='project-trigger-p1']" },
+        { "type": "wait", "duration": 2000 }
+      ],
+      "description": "Expande un proyecto y dispara la carga perezosa de tareas."
+    },
+    {
+      "name": "GreenProjectList - Cache Hit (Reload)",
+      "url": "http://localhost:3000/projects",
+      "actions": [
+        { "type": "visit", "url": "http://localhost:3000/projects" },
+        { "type": "wait", "duration": 1000 }
+      ],
+      "description": "Revisita la pagina para medir el impacto del cache de sesion (TTL 5 min)."
+    }
+  ],
+  "thresholds": {
+    "energy": {
+      "browser": 0.05,
+      "screen": 0.02,
+      "network": 0.01
+    }
+  }
+}

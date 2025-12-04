@@ -1,5 +1,5 @@
-# TutorVirtual IA – Monorepo
-Aplicacion web de lectura critica con IA (Genkit + Gemini), Next.js 15 y MongoDB. Incluye backend (bajo `backend/backends`), frontend (App Router), mocks y artefactos de documentacion.
+# TutorVirtual IA Monorepo
+Aplicacion web de lectura critica con IA (Genkit + Gemini), Next.js 15 y MongoDB. Incluye backend (carpeta `backend`), frontend (App Router), mocks y artefactos de documentacion.
 
 ## 1) Requisitos
 - Node.js >= 18.x
@@ -18,22 +18,21 @@ Usa tu propio remoto si aplica.
 ## 3) Estructura
 ```
 tallerproy/
-├── backend/
-│   └── backends/              # Codigo backend consumido por las rutas API de Next
-│       ├── ai/                # Flujos IA (Genkit + Gemini)
-│       ├── config/            # Conexion MongoDB
-│       ├── controllers/       # Auth y logica
-│       ├── middleware/        # Guard de auth
-│       ├── routes/            # API (auth, history, schedule, admin)
-│       ├── services/          # Servicios y store en memoria (modo demo)
-│       └── server.js
-├── frontend/                  # App Next.js (App Router)
-├── mock/                      # JSON Server para pruebas rapidas
-├── cypress/                   # E2E
-├── docs/ y ARTEFACTOS...      # Entregables/artefactos del proyecto
-└── package.json               # Scripts de raiz
+|- backend/                  # Codigo backend consumido por las rutas API de Next
+|  |- ai/                    # Flujos IA (Genkit + Gemini)
+|  |- config/                # Conexion MongoDB
+|  |- controllers/           # Auth y logica
+|  |- middleware/            # Guard de auth
+|  |- routes/                # API (auth, history, schedule, admin)
+|  |- services/              # Servicios y store en memoria (modo demo)
+|  `- server.js
+|- frontend/                 # App Next.js (App Router)
+|- mock/                     # JSON Server para pruebas rapidas
+|- cypress/                  # E2E
+|- docs/ y ARTEFACTOS...     # Entregables/artefactos del proyecto
+`- package.json              # Scripts de raiz
 ```
-Alias: `@/backend/*` y `@backend/*` apuntan a `../backend/backends/*`.
+Alias: `@/backend/*` y `@backend/*` apuntan a `../backend/*`.
 
 ## 4) Variables de entorno
 Crear `.env` (raiz) o configurarlas en el host:
@@ -65,7 +64,11 @@ npm run app:docker:down
 ```
 
 ## 7) Docker (app completa)
-UI http://localhost:9002, n8n http://localhost:5678, Mailhog http://localhost:8025. Copia `.env.docker.example` a `.env` y define `AUTH_SECRET` (y Mongo si no usas demo).
+UI http://localhost:9002, n8n http://localhost:5678, Mailhog http://localhost:8025. Copia `.env.docker.example` a `.env` y define `AUTH_SECRET` (y Mongo si no usas demo). El `docker-compose.app.yml` ya monta `.env` como `env_file`, asi que puedes levantar todo con:
+```bash
+docker compose -f docker-compose.app.yml --env-file .env up --build
+```
+Esto asegura que Cypress/registro lean las credenciales reales desde `.env` dentro del contenedor.
 
 ## 8) Pruebas
 - Jest (unit/integration): `npm test`, `npm run test:watch`, `npm run test:coverage`
@@ -82,6 +85,6 @@ Usa `mock/server.js` con datos de `mock/db.json` y rutas de `mock/routes.json`.
 Configura `AUTH_SECRET`, `MONGODB_URI`, `MONGODB_DB`, `GEMINI_API_KEY` (opcional). Importa el repo y despliega; App Router se detecta automaticamente.
 
 ## 11) Notas
-- Mantener alias de imports apuntando a `backend/backends`.
+- Mantener alias de imports apuntando a `backend`.
 - Si reubicas carpetas, actualiza `frontend/jsconfig.json` y `frontend/jest.config.js`.
 - Revisa politicas de cookies/JWT para produccion (secure/samesite).
